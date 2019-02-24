@@ -135,6 +135,34 @@ free(*ptr)	//releases the specified block of memory back to the system
 
 ## Micro-controller
 
+### GPIO
+
+#### External Pull-up and Pull-down
+To ensure a logic level at a pin, avoiding it floating in the air. When a pin is not pulled to a low or high logic level, then the high impedance state occurs.
+![](pull-up.jpeg)
+
+#### GPIO input mode
+High-impedance (default - floats if not driven) 
+Pull-up (internal resistor connected to VCC) 
+Pull-down (internal resistor connected to Ground)  
+
+### Memory Mapped IO
+Memory-mapped I/O uses the same **address space** to address both memory and I/O devices. The memory and registers of the I/O devices are mapped to (associated with) address values. *So when an address is accessed by the CPU, it may refer to a portion of physical RAM, or it can instead refer to memory of the I/O device*. Thus, the CPU instructions used to access the memory can also be used for accessing devices. 
+Linux -> ioremap() 
+
+Port-mapped I/O :I/O devices have a separate address space from general memory, either accomplished by an extra "I/O" pin on the CPU's physical interface, or an entire bus dedicated to I/O.  Uses a special class of CPU instructions to access I/O devices 
+
+
+### ARM ISA
+- General purpose register R0 - R12 
+- Special purpose: 
+  - Stack pointer: points to the top of the stack 
+  - Link register: store the return addr when a subroutine call is made 
+  - Program counter: incremented by the size of the instruction executed (which is always four bytes in ARM state). Branch instructions load the destination address into PC. During execution, PC stores the address of the current instruction plus 8 (two ARM instructions) in ARM state, and the current instruction plus 4 (two Thumb instructions) in Thumb(v1) state. 
+  - Application program status register: holds the program status flags that are accessible in any processor mode. ![](ARM_Program_Status_Reg.png) 
+
+### DMA (Direct Memory Access)
+Direct memory access (DMA) is an interfacing technique that allows data to transfer directly from I/O device to memory, or from memory to the I/O device without going through the processor. Embedded system designers will need to use DMA when interfacing high speed devices.
 
 ### Peripheral Communication
 
@@ -203,10 +231,60 @@ Note that SPI is "full duplex" (has separate send and receive lines), and, thus,
 - Thread's register values
 - Pointer to the Process control block (PCB) of the process that the thread lives on
 
+The blow shoe the different states of thread
+![](Thread_States.png)
+### Process vs Thread
+- Threads are not independent of one other like processes as a result threads shares with other threads their code section, data section and OS resources like open files and signals. But, like process, a thread has its own program counter (PC), a register set, and a stack space.
+- Processes start out with a single main thread. The main thread can create new threads using a thread fork system call. The new threads can also use this system call to create more threads. Consequently, a thread not only belongs to a process; it also has a parent thread - the thread that created it.
 
-### Virtual Memory
+### Thread Synchronization
+Locks:
+- spin lock
+  - With a spinlock, the thread simply waits ("spins") until the lock becomes available. This is efficient if threads are blocked for a short time, because it avoids the overhead of operating system process re-scheduling. 
+  - It is inefficient if the lock is held for a long time, or if the progress of the thread that is holding the lock depends on preemption of the locked thread.
+- mutex
+  - provide mutual exclusion for the resources, and it will block the thread if the resrouce is no availble. CPU would reschedule the thread when the lock is available.
+
+Semaphores:
+- counting semaphore
+  - Every time you wait on a semaphore, you decrease the current count. 
+  - If the count was greater than zero then the decrement just happens, and the wait call returns. 
+  - If the count was already zero then it cannot be decremented, so the wait call will block until another thread increases the count by signalling the semaphore.
+  - Every time you release a semaphore, you increase the current count.
+  - If the count was zero before you called signal, and there was a thread blocked in wait then that thread will be woken. If multiple threads were waiting, only one will be woken
+  - If the count was already at its maximum value then the signal is typically ignored, although some semaphores may report an error.
+
+
+- binary semaphore
+  - it is pretty much similar to the mutex
+
+### Producer and Consumer
+This is the template for the producer and consumer models in Operating System, it uses the semaphore and mutext to protect resources like ring buffer
+![](Producer_and_Consumer.png)
+
+### Paging 
+Paging is a memory management scheme that eliminates the need for contiguous allocation of physical memory. This scheme permits the physical address space of a process to be non – contiguous.
+
+Pages has two states: **valid** and **resident**.
+
+**Valid** means the page are allocated to the program, and it is legal for the process to access.
+
+**Redident** means the page are already in the physical memory.
+
+Page size usually 4KB or 8KB
+
+
+#### Virtual Memory
 ![](Virtual_mem.png)
 
+
+
+### Inter Process Communication
+Inter process communication (IPC) is a mechanism which allows processes to communicate each other and synchronize their actions. 
+The communication between these processes can be seen as a method of co-operation between them. Processes can communicate with each other using these two ways:
+1. Shared Memory
+2. Message passing
+![](InterProcessCom.png)
 
 ## Computer Networks
 
@@ -285,6 +363,9 @@ Kernel is a core part of operating system for managing system resources. It more
 Kernel process and user process has different adress spaces.
 
 
+### Power Integration
+
+
 # Resume Details
 
 
@@ -359,3 +440,4 @@ Different states of tasks:
 - Terminated: task is terminated from execution
 - Inactive: task is on inactive list
 
+## AliOS-Things
