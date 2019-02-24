@@ -7,7 +7,7 @@
 Bluetooth 4.2 allows two systems of wireless technology, Bluetooth Basic Rate (BR: BR/EDR for Basic Rate/Enhanced Data Rate) and Bluetooth Low Energy.
 
 The base rate was usually applied in applications like wirelss headphones. The low engery system was created to trasmit small package of data.
-![](BLE-Stack.jpg)
+![](./IMG/BLE-Stack.jpg)
 
 The Bluetooth Low Energy protocol stack consists of host and controller.
 - the controller, it consists of three parts: Host-cotroller interfaces, Link layer, and Physical layer.
@@ -28,7 +28,7 @@ The Logical Link Control and Adaptation Layer Protocol (L2CAP) layer provides da
 
 
 #### State diagram of a device
-![GAT](GAT.jpg)
+![GAT](./IMG/GAT.jpg)
 
 - Standby: The device is in the initial idle state upon reset.
 - Advertiser: The device is advertising with specific data letting any initiating devices know that it is a connectible device (this advertisement contains the device address and can contain some additional data such as the device name).
@@ -66,7 +66,7 @@ the GATT layer of the Bluetooth low energy protocol stack is used by the applica
 ## Embedded C
 
 ### Unsigned vs Signed
-![](补码到无符号.png)
+![](./IMG/补码到无符号.png)
 Convert the unsigned int to signed int, minus 2^32 if the unsigned int greater than 2^31;
 Covert the signed int to unsigned int, plus 2^32 if the signed int less than 0;
 
@@ -98,20 +98,20 @@ bool sadd_ok(int x, int y){
 ### Floating
 The representation of floating point in register are shown above.
 
-![](floating_point.png)
-![](IEEE_float.png)
+![](./IMG/floating_point.png)
+![](./IMG/IEEE_float.png)
 
 ### Struct
 
 #### Data alignment
 
 Many computer system has restrictions on data alignment, they only allow the program to access address which is multiple of some value K (typically 2, 4, or 8), and this restriction is called memory alignment.
-![](Memory_alignment.png)
-![](Memory_align2.png)
+![](./IMG/Memory_alignment.png)
+![](./IMG/Memory_align2.png)
 
 ### Function pointer
-![](Function_pointer.png)
-![](Function_pointer2.png)
+![](./IMG/Function_pointer.png)
+![](./IMG/Function_pointer2.png)
 ```c++
 int (*fp) (int); // here remember to define (*fp), otherwise, it means that the function with pointer return type
 ```
@@ -139,7 +139,7 @@ free(*ptr)	//releases the specified block of memory back to the system
 
 #### External Pull-up and Pull-down
 To ensure a logic level at a pin, avoiding it floating in the air. When a pin is not pulled to a low or high logic level, then the high impedance state occurs.
-![](pull-up.jpeg)
+![](./IMG/pull-up.jpeg)
 
 #### GPIO input mode
 High-impedance (default - floats if not driven) 
@@ -159,7 +159,7 @@ Port-mapped I/O :I/O devices have a separate address space from general memory, 
   - Stack pointer: points to the top of the stack 
   - Link register: store the return addr when a subroutine call is made 
   - Program counter: incremented by the size of the instruction executed (which is always four bytes in ARM state). Branch instructions load the destination address into PC. During execution, PC stores the address of the current instruction plus 8 (two ARM instructions) in ARM state, and the current instruction plus 4 (two Thumb instructions) in Thumb(v1) state. 
-  - Application program status register: holds the program status flags that are accessible in any processor mode. ![](ARM_Program_Status_Reg.png) 
+  - Application program status register: holds the program status flags that are accessible in any processor mode. ![](./IMG/ARM_Program_Status_Reg.png) 
 
 ### DMA (Direct Memory Access)
 Direct memory access (DMA) is an interfacing technique that allows data to transfer directly from I/O device to memory, or from memory to the I/O device without going through the processor. Embedded system designers will need to use DMA when interfacing high speed devices.
@@ -173,7 +173,7 @@ You might be thinking to yourself, self, that sounds great for one-way communica
 In SPI, only one side generates the clock signal (usually called CLK or SCK for Serial ClocK). The side that generates the clock is called the "master", and the other side is called the "slave". There is always only one master (which is almost always your microcontroller), but there can be multiple slaves (more on this in a bit).
 
 When data is sent from the master to a slave, it's sent on a data line called MOSI, for "Master Out / Slave In". If the slave needs to send a response back to the master, the master will continue to generate a prearranged number of clock cycles, and the slave will put the data onto a third data line called MISO, for "Master In / Slave Out".
-![](SPI.png)
+![](./IMG/SPI.png)
 
 Notice we said "prearranged" in the above description. Because the master always generates the clock signal, it must know in advance when a slave needs to return data and how much data will be returned. This is very different than asynchronous serial, where random amounts of data can be sent in either direction at any time. In practice this isn't a problem, as SPI is generally used to talk to sensors that have a very specific command structure. For example, if you send the command for "read data" to a device, you know that the device will always send you, for example, two bytes in return. (In cases where you might want to return a variable amount of data, you could always return one or two bytes specifying the length of the data and then have the master retrieve the full amount.)
 
@@ -232,7 +232,7 @@ Note that SPI is "full duplex" (has separate send and receive lines), and, thus,
 - Pointer to the Process control block (PCB) of the process that the thread lives on
 
 The blow shoe the different states of thread
-![](Thread_States.png)
+![](./IMG/Thread_States.png)
 ### Process vs Thread
 - Threads are not independent of one other like processes as a result threads shares with other threads their code section, data section and OS resources like open files and signals. But, like process, a thread has its own program counter (PC), a register set, and a stack space.
 - Processes start out with a single main thread. The main thread can create new threads using a thread fork system call. The new threads can also use this system call to create more threads. Consequently, a thread not only belongs to a process; it also has a parent thread - the thread that created it.
@@ -260,7 +260,7 @@ Semaphores:
 
 ### Producer and Consumer
 This is the template for the producer and consumer models in Operating System, it uses the semaphore and mutext to protect resources like ring buffer
-![](Producer_and_Consumer.png)
+![](./IMG/Producer_and_Consumer.png)
 
 ### Paging 
 Paging is a memory management scheme that eliminates the need for contiguous allocation of physical memory. This scheme permits the physical address space of a process to be non – contiguous.
@@ -275,7 +275,7 @@ Page size usually 4KB or 8KB
 
 
 #### Virtual Memory
-![](Virtual_mem.png)
+![](./IMG/Virtual_mem.png)
 
 
 
@@ -284,7 +284,7 @@ Inter process communication (IPC) is a mechanism which allows processes to commu
 The communication between these processes can be seen as a method of co-operation between them. Processes can communicate with each other using these two ways:
 1. Shared Memory
 2. Message passing
-![](InterProcessCom.png)
+![](./IMG/InterProcessCom.png)
 
 ## Computer Networks
 
@@ -380,7 +380,7 @@ The TI-RTOS is a RTOS kernel, specially designed for TI's Bluetooth SoC, like CC
 ### Threading module
 It has four thread modules. Hardware interrupts, software interrupts, task and idle task.
 The TI RTOS manages four distince context levels of thread execution
-![image info](fig-tirtos-threads.jpg)
+![image info](./IMG/fig-tirtos-threads.jpg)
 
 #### HWI
 - threads are threads with highest priority in TI-RTOS

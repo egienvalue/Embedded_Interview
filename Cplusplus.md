@@ -9,7 +9,7 @@ void * memcpy ( void * destination, const void * source, size_t num );// memcpy 
 void * memmove ( void * destination, const void * source, size_t num );// memmove cand handle the overlapping area of copy
 void * memset ( void * ptr, int value, size_t num ); // set the value in memory
 ```
-![](Ctype_Lib.png)
+![](./IMG/Ctype_Lib.png)
 
 ## Frequently use C++ lib
 ```c++
@@ -66,7 +66,7 @@ iterator erase (iterator position);
 iterator erase (iterator first, iterator last);
 ```
 
-![](C++_Vector.png)
+![](./IMG/C++_Vector.png)
 
 #### Resize() vs Reserve()
 
@@ -97,7 +97,7 @@ Both vectors and deques provide a very similar interface and can be used for sim
 - Cons
   - linear time for insert or erase element in the middle
 
-![](C++_Deque.png)
+![](./IMG/IMG/C++_Deque.png)
 
 #### Complexity
 
@@ -136,7 +136,7 @@ iterator emplace (const_iterator position, Args&&... args);
 
 ```
 
-![](C++_List.png)
+![](./IMG/C++_List.png)
 
 #### Complexity
 - insert()
@@ -162,7 +162,7 @@ Maps are typically implemented as **binary search trees**.
 - Cons
   - map containers are generally slower than unordered_map containers to access individual elements by their key
 
-![](C++_Map.png)
+![](./IMG/C++_Map.png)
 
 
 #### Complexity
@@ -267,7 +267,7 @@ Implemented with hash table and using the chaining to avoid hash collision
 Notices:
 A **bucket** is a slot in the container's internal hash table. It is assigned to element based on their hash value of key
 
-![](C++_Unordered_map.png)
+![](./IMG/C++_Unordered_map.png)
 
 #### Complexity
 
