@@ -7,7 +7,7 @@
 Bluetooth 4.2 allows two systems of wireless technology, Bluetooth Basic Rate (BR: BR/EDR for Basic Rate/Enhanced Data Rate) and Bluetooth Low Energy.
 
 The base rate was usually applied in applications like wirelss headphones. The low engery system was created to trasmit small package of data.
-![Protocol Stack](BLE-Stack.jpg)
+![](BLE-Stack.jpg)
 
 The Bluetooth Low Energy protocol stack consists of host and controller.
 - the controller, it consists of three parts: Host-cotroller interfaces, Link layer, and Physical layer.
