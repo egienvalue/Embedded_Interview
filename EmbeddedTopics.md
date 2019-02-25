@@ -216,7 +216,7 @@ the master's data rate will exceed the slave's ability to provide that data. Thi
 A universal asynchronous receiver/transmitter (UART) is a block of circuitry responsible for implementing serial communication. Essentially, the UART acts as an intermediary between parallel and serial interfaces. On one end of the UART is a bus of eight-or-so data lines (plus some control pins), on the other is the two serial wires - RX and TX.
 ![](./IMG/UART_Interface.png)
 UART transmitted data is organized into packets. Each packet contains 1 start bit, 5 to 9 data bits (depending on the UART), an optional parity bit, and 1 or 2 stop bits:
-![](IMG/UART_Packet.png)
+![](./IMG/UART_Packet.png)
 In most cases, the data is sent with the **least significant bit first**.
 
 - **start bit**
@@ -502,7 +502,7 @@ Different states of tasks:
 
 ### Task States
 Fours task states: running, blocked, ready, suspended
-![](IMG/FreeRTOS_TaskState.png)
+![](./IMG/FreeRTOS_TaskState.png)
 
 The suspended state will enter only through calling the TaskSuspend().
 
@@ -568,13 +568,13 @@ static void vHandlerTask( void *pvParameters )
 ### Queue
 Queues provide a task-to-task, task-to-interrupt, and interrupt-to-task communication mechanism. Queues are normally used as First In First Out (FIFO) buffers, where data is written to the end (tail) of the queue and removed from the front (head) of the queue. 
 
-![](IMG/FreeRTOS_Queue.png)
+![](./IMG/FreeRTOS_Queue.png)
 
 #### Typical Design
 
 It is common in FreeRTOS designs for a task to receive data from more than one source. The receiving task needs to know where the data came from to determine how the data should be processed. An easy design solution is to use a single queue to transfer structures with both the value of the data and the source of the data contained in the structure’s fields. This scheme is demonstrated in Figure 34
 
-![](IMG/FreeRTOS_Queue_Usage.png)
+![](./IMG/FreeRTOS_Queue_Usage.png)
 
 
 ### Event Groups
@@ -585,7 +585,7 @@ Features:
 - Event groups also provide the opportunity to reduce the RAM used by an application, as often it is possible to replace many binary semaphores with a single event group.
 
 Each event will be represents by one bit in the Event group, if it has occured, the bit will be 1, otherwise it will be zero. The specific meaning of each bit in the event groups is specified by the user.
-![](IMG/FreeRTOS_EventFlag.png)
+![](./IMG/FreeRTOS_EventFlag.png)
 
 ```c++
 static void vEventBitReadingTask( void *pvParameters )
