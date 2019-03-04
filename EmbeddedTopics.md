@@ -65,6 +65,61 @@ the GATT layer of the Bluetooth low energy protocol stack is used by the applica
 
 ## Embedded C
 
+
+### Bit-field
+
+
+### Volatile
+
+- Non-automatic variables referenced within an interrupt service routine
+A global or static variable used in an interrupt will appear to change unexpectedly at the task level, so the volatile keyword is needed to inform the compiler that this will happen.
+
+- Variables shared by multiple tasks in a multi-threaded application 
+- Hardware registers in peripherals (for example, status registers)
+
+```c++
+
+uint8_t volatile * p_ledreg = 0x10000000;
+
+//The valatile should be placed before the *
+// In the above code, the variable p_legreg is a pointer to a volatile 8-bit unsigned register located at address 0x10000000.
+
+typedef volatile struct
+{
+uint8_t reg1;
+uint8_t reg2;
+uint8_t _reserved;
+uint8_t reg3;
+
+} mydevice_t;
+
+mydevice_t * p_mydevice = 0x10000000;
+
+// or
+typedef struct
+{
+uint8_t reg1;
+uint8_t reg2;
+uint8_t _reserved;
+uint8_t reg3;
+
+} mydevice_t;
+
+mydevice_t volatile * p_mydevice = 0x10000000;
+```
+
+### Macro vs Inline func
+
+Macro:
+- expanded by the preprocessor, directly replace the code section
+- just do the replacement according to the define
+```c++
+#define min(X, Y)  ((X) < (Y) ? (X) : (Y))
+```
+Inline func
+- only parsed by the compiler
+- it is actually programs which can access the member variables
+
 ### Unsigned vs Signed
 ![](./IMG/补码到无符号.png)
 Convert the unsigned int to signed int, minus 2^32 if the unsigned int greater than 2^31;
@@ -262,7 +317,16 @@ If a microcontroller doesn't have a UART (or doesn't have enough), the serial in
 ## Computer Architecture
 
 
-### 
+### RISC vs CISC
+- RISC(reduced instruction set)
+  - it want to execture a simple instructions in a single cpu clock cycle
+  - its code size is usually large
+
+- CISC
+  - it want to use instruction as few as possible to accomplish complex task
+  - its code size is uaually small.
+  - A instruction will go through several clock cycles
+
 
 
 
@@ -437,6 +501,12 @@ If the hash int is less than 0 or greater than M, we can use the compresson func
 
 If you only has small amount of integers as the key, it is better to use the the arrays as hash_map
 
+### Bit manipulation
+
+Get the first bit with 1
+```c++
+
+```
 # Resume Details
 
 
