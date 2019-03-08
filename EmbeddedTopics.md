@@ -66,6 +66,17 @@ the GATT layer of the Bluetooth low energy protocol stack is used by the applica
 ## Embedded C
 
 
+### Endianess 
+- Big endian: MSB placed at the lowest addr 
+- Little endian: LSB placed at the lowest addr 
+```c++
+int main() 
+{ 
+    int x = 1; 
+    char *y = (char*)&x; 
+    printf("%c\n",*y+48); 
+} 
+```
 ### Bit-field
 
 
@@ -184,7 +195,22 @@ free(*ptr)	//releases the specified block of memory back to the system
 - Static for global variable: access it limited in this file
 - Static function: limited acces in file
 - Static local variable in function: the value will be maintained between function calls
-- 
+
+### Const qulifier
+
+- define a const pointer, so you cannot modify the pointer itself, but the program modifer the memory pointed by this ptr
+```c++
+char* const ptr;
+```
+- define a pointer, pointer to constant. Here, the value of pointer can be changed, but the value stored in the memory address pointed by the ptr can't be changed.
+```c++
+const char* ptr;
+char const* ptr;
+```
+```c++
+const char* const ptr;
+```
+
 
 ### Diference between Macro and Inline
 
@@ -196,19 +222,82 @@ free(*ptr)	//releases the specified block of memory back to the system
 To ensure a logic level at a pin, avoiding it floating in the air. When a pin is not pulled to a low or high logic level, then the high impedance state occurs.
 ![](./IMG/pull-up.jpeg)
 
-#### GPIO input mode
-High-impedance (default - floats if not driven)
+#### GPIO Input Mode
+- High-impedance (default - floats if not driven)
 
-Pull-up (internal resistor connected to VCC) 
+- Pull-up (internal resistor connected to VCC) 
+![](./IMG/GPIO_Pull_up.png)
+- Pull-down (internal resistor connected to Ground)  
+![](./IMG/GPIO_Pull_Down.png)
+#### GPIO Output Mode
+- Push-Pull: the two transistor are connected to the GPIO pin, and one is connected with VCC, another is with GND. By control the transistor, we can drive the GPIO to low voltage level or high voltage level
+- Open drain: one transistor connect the GPIO pin with GND. if we want to drive it to high voltage level, we need to connect the a pull up resistor with GPIO.  
 
-Pull-down (internal resistor connected to Ground)  
+![](./IMG/GPIO_Output_Mode.png)
+
+#### Switch Bounce
+
+Switch have mechanical contacts.
+- Them take time to move position
+- Take time to stabilize when open or closing
+- Create sparks on GPIO input pin
+
+![](./IMG/Switch_Bounce.png)
+
+#### Hardware Debounce
+
+- connect the GPIO with capacitor
+- Add Schmitt-Trigger Inverters
+
+![](./IMG/Switch_HardwareDebounce.png)
+![](IMG/Switch_DebounceResult.png)
+#### Software Debounce
+
+- wait for the switch value is steady for 10 ms
+
+#### Using GPIO control the LED 
+
 
 ### Memory Mapped IO
-Memory-mapped I/O uses the same **address space** to address both memory and I/O devices. The memory and registers of the I/O devices are mapped to (associated with) address values. *So when an address is accessed by the CPU, it may refer to a portion of physical RAM, or it can instead refer to memory of the I/O device*. Thus, the CPU instructions used to access the memory can also be used for accessing devices. 
-Linux -> ioremap() 
+Memory-mapped I/O uses the same **address space** to address both memory and I/O devices. The memory and registers of the I/O devices are mapped to (associated with) address values. So when an address is accessed by the CPU, it may refer to a portion of physical RAM, or it can instead refer to memory of the I/O device. Thus, the CPU instructions used to access the memory can also be used for accessing devices. 
 
 Port-mapped I/O :I/O devices have a separate address space from general memory, either accomplished by an extra "I/O" pin on the CPU's physical interface, or an entire bus dedicated to I/O.  Uses a special class of CPU instructions to access I/O devices 
+![](./IMG/Arm_MemMap2.png)
+![](./IMG/Arm_MemMap.png)
 
+### Timer
+
+#### Watch Dog timer
+
+The watch dog timer is used to avoid the program go stuck. The timer will reset the CPU when it reach zero. So you micro controller have reset the timer frequently to show that the program runs correctly
+
+Usage:
+- detect the software hangs
+  - could be in a infinite loop
+  - wild pointer 
+  - corrupted data
+
+
+Basic Idea:
+- Have a hardware timer running all the time (count-down timer)
+- When timer reaches zero, it resets the system
+- Software periodically “kicks” (or “pets”) the watchdog, restarting the count
+- It means the system is really alive
+![](./IMG/WatchDog.png)
+
+### Interrupt
+
+There are two kinds of interrupt, software and hardware.
+- software: 
+  - instruction with code cause a interrupt
+  - SWI has to be placed as an explicit instruction at a specific location ...
+    a synchronous interrupt – happens synchronized to program flow
+- hardware:
+  - Hardware interrupt causes CPU to execute a virtual interrupt instruction
+  - Save current state of the CPU on the stack
+  - Execute Interrupt Service Routine
+  - Acknowledge the Interrupt (Clear the interrupt flag)
+  - Resume execution
 
 ### ARM ISA
 - General purpose register R0 - R12 
@@ -221,7 +310,37 @@ Port-mapped I/O :I/O devices have a separate address space from general memory, 
 ### DMA (Direct Memory Access)
 Direct memory access (DMA) is an interfacing technique that allows data to transfer directly from I/O device to memory, or from memory to the I/O device without going through the processor. Embedded system designers will need to use DMA when interfacing high speed devices.
 
+### RTOS
+
+#### Priority Inversion
+
+The priority Inversion
+- Usually happens when high priority task and low priroity task share the same lock
+- The low priority task C share the resource with high priority task A
+- When the low priority task C grab the lock, but the high priority task A also want to grab the lock, it will fail and be blocked
+- If in this situation, we have another task B which has higher priority than task C. It will run firstly and block task C.
+- Now you can see, the order of three task runs are B C A. Now the A with highest priority actually is the last task to run. 
+
+#### Priority Inheritance
+- When the C grab the lock that  A want to grab. the priority of A will be assigned to C.
+- Now the order of running is C A B
+
+### CAN Bus
+
+Message Format
+
+### Bit Banging
+
 ### Peripheral Communication
+
+**Framing Message** solve the problem of know how many bytes to receive
+- Header info – what type of message is this?
+- [optional] – count of how many bytes to expect
+- Payload – the actual data you care about
+- Error detection – something beyond parity to detect corrupted bytes
+- Each message might also be sandwiched between an XON and XOFF
+![](./IMG/Serial_MessageFormat.png)
+
 
 #### SPI
 
@@ -267,7 +386,7 @@ the master's data rate will exceed the slave's ability to provide that data. Thi
 
 #### Serial Communication
 
-1. UART
+1. Hardware UART
 A universal asynchronous receiver/transmitter (UART) is a block of circuitry responsible for implementing serial communication. Essentially, the UART acts as an intermediary between parallel and serial interfaces. On one end of the UART is a bus of eight-or-so data lines (plus some control pins), on the other is the two serial wires - RX and TX.
 ![](./IMG/UART_Interface.png)
 UART transmitted data is organized into packets. Each packet contains 1 start bit, 5 to 9 data bits (depending on the UART), an optional parity bit, and 1 or 2 stop bits:
@@ -280,19 +399,30 @@ In most cases, the data is sent with the **least significant bit first**.
   - When the receiving UART detects the high to low voltage transition, it begins reading the bits in the data frame at the frequency of the baud rate. 
 - **data bits**
   - actual data
-- parity bit
+- **parity bit**
   - Parity describes **the evenness or oddness of a number**. The parity bit is a way for the receiving UART to tell if any data has changed during transmission.
   - If the parity bit is a 0 (even parity), the 1 bits in the data frame should total to an even number. 
   - If the parity bit is a 1 (odd parity), the 1 bits in the data frame should total to an odd number.
-- stop bit
+- **stop bit**
   - To signal the end of the data packet, the sending UART drives the data transmission line from a low voltage to a high voltage for at least two bit durations.
 
-
-1. Software UARTs
+2. Software UARTs
 If a microcontroller doesn't have a UART (or doesn't have enough), the serial interface can be bit-banged - directly controlled by the processor. This is the approach Arduino libraries like SoftwareSerial take. **Bit-banging** is **processor-intensive**, and not usually as precise as a UART, but it works in a pinch!
 
+3. Hardware Flow Control
+- "RTS" : I am ready to send bits
+- "CTS" " OK, I am readyto receive bits - send them
+- CTS goes high after every byte, then goes low again for the next byte
+- make sure CPU can get byte out of input buffer in time
 
-
+4. Framing Message
+Solve the problem of know how many bytes to receive
+- Header info – what type of message is this?
+- [optional] – count of how many bytes to expect
+- Payload – the actual data you care about
+- Error detection – something beyond parity to detect corrupted bytes
+- Each message might also be sandwiched between an XON and XOFF
+![](./IMG/Serial_MessageFormat.png)
 
 ## Linux
 
@@ -302,9 +432,324 @@ If a microcontroller doesn't have a UART (or doesn't have enough), the serial in
 
 
 
+### Linux Device Driver
+
+The device driver actaully provide a standard interface to devices. In Linux the interface is a file. It can be opened, read, write or close. So when we manipulate the devices through manipulating files.
+- major number: to distinguish different kinds of driver
+- minor number: to distinguish differenct individual physical devices with the same drier
+
+Different Types:
+- Character Device File
+- Block Device File
+- Pseudo Device File
+
+```bash
+mknod /dev/memory c 60 0 # using the make node to create a new device driver
+sudo insmod nothing.ko #inser the kernel object file
+lsmod # list all the module 
+
+```
+
+The ioctl() system call manipulates the underlying device parameters of special files. Here is how to define how the device driver will response to the ioctl operation
+```c++
+// This file contains snippets of code that can be added to partC.c //
+
+long memory_ioctl (struct file *filp, unsigned int cmd, \
+		  unsigned long arg);
+
+struct file_operations memory_fops = 
+{
+  .read = memory_read,
+  .write = memory_write,
+  .open = memory_open,
+  .release = memory_release,
+  .unlocked_ioctl = memory_ioctl
+};
+
+long 
+memory_ioctl (struct file *filp, unsigned int cmd,
+ 	      unsigned long arg)
+{
+  printk("<1>in ioctl\n");
+  if(cmd==0) 
+	*memory_buffer^=0x20;	
+  else
+        *memory_buffer|=0x20;
+  return(0); // success!
+}
+```
+
+A typical kernel module file
+```c++
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+MODULE_LICENSE("Dual BSD/GPL");
+static int hello_init(void) {
+    printk("<1> Pork chop sandwiches!\n");
+    return 0;
+}
+static void hello_exit(void) {
+    printk("<1> What are you doing? Get out of here!\n");
+}
+module_init(hello_init);
+module_exit(hello_exit);
+```
+
+The device driver for the h-bridge. We must define the init entry, exit entry, and file operations. So, in the module init function, we need to register the device file with the major number and defined file operations. 
+```c++
+/**
+ * @file    h-bridge device driver
+ * @author  Kevin Yang
+ * @date    3/20/2017
+ * @brief   Solution code for a kernel module that controls a h-bridge. 
+ *          Pin mounts and commands are defined below.
+ */
+
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>	/* printk() */
+#include <linux/gpio.h>
+
+#include <linux/slab.h>		/* kmalloc() */
+#include <linux/fs.h>		/* everything... */
+#include <linux/errno.h>	/* error codes */
+#include <linux/types.h>	/* size_t */
+#include <linux/proc_fs.h>
+#include <linux/fcntl.h>	/* O_ACCMODE */
+#include <linux/ioport.h>
+//#include <asm/system.h>		/* cli(), *_flags */
+#include <asm/uaccess.h>	/* copy_from/to_user */
+#include <asm/io.h>
+
+MODULE_LICENSE ("Dual BSD/GPL");
 
 
+/*
+ * Input commands and pin mounts
+ */
 
+#define FORWARD 'F'
+#define LEFT    'L'
+#define BACK    'B'
+#define RIGHT   'R'
+#define STOP    'S'
+
+//Adjust to add intermediate speeds
+#define IDLE    0
+#define SPEED   1
+
+//Adjust to reverse motor polarity
+int LEFT_MOTOR  = true;
+int RIGHT_MOTOR = false;
+
+//These pins are for the RPI3 B, adjust if using a different board
+#define EN1 20  //pwm pin, left motor
+#define EN2 21  //pwm pin, right motor
+#define A_1 6   //Y1, left motor positive
+#define A_2 13  //Y2, left motor negative
+#define A_3 19  //Y3, right motor positive
+#define A_4 26  //Y4, right motor negative
+
+
+int memory_open (struct inode *inode, struct file *filp);
+int memory_release (struct inode *inode, struct file *filp);
+ssize_t memory_read (struct file *filp, char *buf, size_t count,
+		     loff_t * f_pos);
+ssize_t memory_write (struct file *filp, const char *buf, size_t count,
+		      loff_t * f_pos);
+void memory_exit (void);
+int memory_init (void);
+//int memory_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
+
+void setPin(int PIN);
+void removePin(int PIN);
+void moveRobot(char command);
+void motorControl(bool ifLeftMotor, char command);
+
+
+struct file_operations memory_fops = 
+{
+  .read = memory_read,
+  .write = memory_write,
+  .open = memory_open,
+  .release = memory_release,
+//  .unlocked_ioctl = memory_ioctl
+};
+
+module_init (memory_init);
+module_exit (memory_exit);
+
+int memory_major = 60;
+char *memory_buffer;
+
+int memory_init (void) {
+	int result;
+	result = register_chrdev (memory_major, "memory", &memory_fops);
+	if (result < 0) {
+		printk ("Memory: cannot obtain major number %d\n", memory_major);
+		return result;
+	}
+
+	/* Allocating memory for the buffer */
+	memory_buffer = kmalloc (1, GFP_KERNEL);
+	if (!memory_buffer) {
+		result = -ENOMEM;
+		goto fail;
+	}
+
+	memset (memory_buffer, 0, 1);
+	printk ("Inserting memory module\n");
+   
+    setPin(EN1);
+    setPin(EN2);
+    setPin(A_1);
+    setPin(A_2);
+    setPin(A_3);
+    setPin(A_4); 
+    
+    return 0;
+
+fail:
+	memory_exit ();
+	return result;
+}
+
+void memory_exit (void) {
+    unregister_chrdev (memory_major, "memory");
+	if (memory_buffer)	{
+	    kfree (memory_buffer);
+	}
+	printk ("Removing memory module\n");
+     
+    removePin(EN1);
+    removePin(EN2);
+    removePin(A_1);
+    removePin(A_2);
+    removePin(A_3);
+    removePin(A_4);
+    
+    printk("GPIO freed, goodbye\n");
+}
+
+int memory_open (struct inode *inode, struct file *filp) {
+ 	return 0;
+}
+
+int memory_release (struct inode *inode, struct file *filp) {
+ 	return 0;
+}
+
+ssize_t memory_read (struct file * filp, char *buf, size_t count, loff_t * f_pos) {
+  /* Transfering data to user space */
+  /* Changing reading position as best suits */
+	if (*f_pos == 0) {
+		if(copy_to_user (buf, memory_buffer, 1)) return count; //error
+		*f_pos += 1;
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+ssize_t memory_write (struct file * filp, const char *buf, size_t count, loff_t * f_pos) { 
+	int tmp=copy_from_user(memory_buffer, buf, 1);
+	if(tmp!=0)
+	{
+		printk("mem_write error");
+		return(count);//just do nothing but say you did all the chars
+	}
+	f_pos += 1;	
+
+	if (memory_buffer[0] == 'F') {
+	    moveRobot(FORWARD);
+    }
+	if (memory_buffer[0] == 'L') {
+	    moveRobot(LEFT);
+    }
+	if (memory_buffer[0] == 'B') {
+	    moveRobot(BACK);
+    }
+	if (memory_buffer[0] == 'R') {
+	    moveRobot(RIGHT);
+    }    
+	if (memory_buffer[0] == 'S') {
+	    moveRobot(STOP);
+    }
+
+	return 1;
+}
+
+void setPin(int PIN) {
+    
+    if (!gpio_is_valid(PIN)) {
+        printk("Invalid GPIO pin\n");
+        return;
+    }
+    // Your stuff here.
+    
+    printk("GPIO pin %d exported... Pin state is currently: %d\n", PIN, gpio_get_value(PIN));
+
+}
+
+void removePin(int PIN) {     
+	// Your stuff here.
+}
+
+ 
+void moveRobot(char command) {
+    switch(command) {
+        case FORWARD:
+            motorControl(LEFT_MOTOR, FORWARD);
+            motorControl(RIGHT_MOTOR, FORWARD);
+            break;
+        case LEFT:
+            motorControl(LEFT_MOTOR, STOP);
+            motorControl(RIGHT_MOTOR, FORWARD);
+            break; 
+        case BACK:
+            motorControl(LEFT_MOTOR, BACK);
+            motorControl(RIGHT_MOTOR, BACK);
+            break; 
+        case RIGHT:
+            motorControl(LEFT_MOTOR, FORWARD);
+            motorControl(RIGHT_MOTOR, STOP);
+            break;
+        case STOP:
+            motorControl(LEFT_MOTOR, STOP);
+            motorControl(RIGHT_MOTOR, STOP);
+            break;
+        default:
+            printk("Illegal command input\n");
+            break;
+    }   
+}
+
+void motorControl(bool ifLeftMotor, char command) {
+    int enable      = ifLeftMotor ? EN1 : EN2;
+    int motorPos    = ifLeftMotor ? A_1 : A_3;
+    int motorNeg    = ifLeftMotor ? A_2 : A_4;
+
+    switch (command) {
+        case FORWARD:
+            gpio_set_value(enable, SPEED);
+            gpio_set_value(motorPos, 1);
+            gpio_set_value(motorNeg, 0);
+            break;
+        case BACK:
+            gpio_set_value(enable, SPEED);
+            gpio_set_value(motorPos, 0);
+            gpio_set_value(motorNeg, 1);
+            break;    
+        case STOP:
+            gpio_set_value(motorPos, 0);
+            gpio_set_value(motorNeg, 0);
+            break;
+        default:
+            break;           
+    }
+}
+```
 ### Kernel
 
 
@@ -327,7 +772,7 @@ If a microcontroller doesn't have a UART (or doesn't have enough), the serial in
   - its code size is uaually small.
   - A instruction will go through several clock cycles
 
-
+### 
 
 
 

@@ -48,3 +48,86 @@ int calculateRotorConfiguration(int rotorCount, int minRotorValue, int maxRotorV
     }
 
 }
+
+
+void helper(TreeNode* root, int & sum){
+    if(root==nullptr){
+        return ;
+    }
+    helper(root->right);
+    root->val = sum + root->val;
+    helper(root->left);
+}
+
+
+struct Folder{
+    string name;
+    bool is_file;
+    list<Folder*> sub_folder;
+}
+
+Folder* root;
+
+// path = A -> B -> C;
+vector<string> get_all_file(vector<string>path, Folder* root){
+    Folder* cur = root;
+    for(int i=0;i<path.length();i++){
+        for(auto & x: cur->sub_folder){
+            if(x->name = path[i]){
+                cur = x;
+                break;
+            }
+        }
+    }
+}
+
+
+int node_dist_BST(TreeNode* root, TreeNode* p1, TreeNode* p2, int& dist1, int& dist2){
+
+
+}
+
+class Package{
+
+public:
+
+    string getID(){
+
+    }
+
+
+}
+
+class Locker{
+
+public:
+
+
+    Locker(int row, int col){
+        locker_matrix = vector<vector<string>>
+
+    }
+
+    bool store(Package pk1){
+
+
+    }
+
+    bool get(string Pkg_ID, string pass_word){
+
+
+
+    }
+
+    void{
+
+
+
+
+    }
+
+private:
+
+    vector<vector<string>> locker_matrix;
+
+}
