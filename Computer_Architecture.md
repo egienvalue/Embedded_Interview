@@ -1,7 +1,11 @@
 [Goback to Readme](./readme.md)
 
-## Computer Architecture
+- [Computer Architecture](#computer-architecture)
+  - [RISC vs CISC](#risc-vs-cisc)
+  - [Pipeline](#pipeline)
+  - [Hazards](#hazards)
 
+## Computer Architecture
 
 ### RISC vs CISC
 - RISC(reduced instruction set)

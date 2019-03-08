@@ -1,7 +1,21 @@
 [Goback to Readme](./readme.md)
 
-## Embedded C
+- [Embedded C](#embedded-c)
+  - [Endianess](#endianess)
+  - [Bit-field](#bit-field)
+  - [Volatile](#volatile)
+  - [Macro vs Inline func](#macro-vs-inline-func)
+  - [Unsigned vs Signed](#unsigned-vs-signed)
+  - [Floating](#floating)
+  - [Struct](#struct)
+    - [Data alignment](#data-alignment)
+  - [Function pointer](#function-pointer)
+  - [Dynamic allocate memory](#dynamic-allocate-memory)
+  - [Static qulifier](#static-qulifier)
+  - [Const qulifier](#const-qulifier)
+  - [Diference between Macro and Inline](#diference-between-macro-and-inline)
 
+## Embedded C
 
 ### Endianess 
 - Big endian: MSB placed at the lowest addr 

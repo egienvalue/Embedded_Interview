@@ -12,7 +12,7 @@ Embedded System
 - [Embeeded C](./Embedded_C.md)
 - [Linux Kernel](./Linux_Kernel.md)
 - [TI RTOS](./TI_RTOS.md)
-- [Free RTOS](./Free_RTOS.md)
+- [Free RTOS](./FreeRTOS.md)
 
 Bluetooth Communication
 - [Bluetooth Low Energy](./Bluetooth_Low_Energy.md)

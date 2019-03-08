@@ -1,5 +1,30 @@
 [Goback to Readme](./readme.md)
 
+- [Micro-controller](#micro-controller)
+  - [GPIO](#gpio)
+    - [External Pull-up and Pull-down](#external-pull-up-and-pull-down)
+    - [GPIO Input Mode](#gpio-input-mode)
+    - [GPIO Output Mode](#gpio-output-mode)
+    - [Switch Bounce](#switch-bounce)
+    - [Hardware Debounce](#hardware-debounce)
+    - [Software Debounce](#software-debounce)
+    - [Using GPIO control the LED](#using-gpio-control-the-led)
+  - [Memory Mapped IO](#memory-mapped-io)
+  - [Timer](#timer)
+    - [Watch Dog timer](#watch-dog-timer)
+  - [Interrupt](#interrupt)
+  - [ARM ISA](#arm-isa)
+  - [DMA (Direct Memory Access)](#dma-direct-memory-access)
+  - [RTOS](#rtos)
+    - [Priority Inversion](#priority-inversion)
+    - [Priority Inheritance](#priority-inheritance)
+  - [CAN Bus](#can-bus)
+  - [Bit Banging](#bit-banging)
+  - [Peripheral Communication](#peripheral-communication)
+    - [SPI](#spi)
+    - [I2C](#i2c)
+    - [Serial Communication](#serial-communication)
+
 ## Micro-controller
 
 ### GPIO

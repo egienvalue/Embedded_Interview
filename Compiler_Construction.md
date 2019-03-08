@@ -1,5 +1,13 @@
 [Goback to Readme](./readme.md)
 
+- [Compiler Construction](#compiler-construction)
+  - [Lexical Analysis](#lexical-analysis)
+  - [Parsing](#parsing)
+  - [Type checking](#type-checking)
+  - [THe last step: code generation](#the-last-step-code-generation)
+  - [Program organization](#program-organization)
+  - [Optmization](#optmization)
+
 ## Compiler Construction
 
 ### Lexical Analysis

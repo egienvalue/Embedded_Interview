@@ -1,5 +1,17 @@
 [Goback to Readme](./readme.md)
 
+- [TI-RTOS](#ti-rtos)
+  - [Threading module](#threading-module)
+    - [HWI](#hwi)
+    - [SWI](#swi)
+    - [Task](#task)
+    - [Idel Task](#idel-task)
+  - [Thread Synchronization Model](#thread-synchronization-model)
+    - [Semaphores](#semaphores)
+    - [Event](#event)
+    - [Message Queue](#message-queue)
+    - [Tasks](#tasks)
+
 ## TI-RTOS
 
 The TI-RTOS is a RTOS kernel, specially designed for TI's Bluetooth SoC, like CC2640. It is a real-time, pre-emptive, and multi-threaded operating system.

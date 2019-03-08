@@ -1,5 +1,15 @@
 [Goback to Readme](./readme.md)
 
+- [Operating System](#operating-system)
+  - [Deadlock](#deadlock)
+  - [Thread Control Block](#thread-control-block)
+  - [Process vs Thread](#process-vs-thread)
+  - [Thread Synchronization](#thread-synchronization)
+  - [Producer and Consumer](#producer-and-consumer)
+  - [Paging](#paging)
+    - [Virtual Memory](#virtual-memory)
+  - [Inter Process Communication](#inter-process-communication)
+
 ## Operating System
 
 ### Deadlock
