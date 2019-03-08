@@ -430,9 +430,19 @@ Solve the problem of know how many bytes to receive
 ### Booting
 
 
+### Kernel
+Kernel can be regarded as a program to manage the hardware resources, like CPU and peripheral devices. The user application can interact with hardware through the kernel.
+- case1: It has to make sure that there is enough memory available for an application to run, as well as to place an application in the right location in memory.
+- case2: It tries to optimize the usage of the processor so that it can complete tasks as quickly as possible. It also aims to avoid deadlocks, which are problems that completely halt the system when one application needs a resource that another application is using.
+- case3: It’s a fairly complicated circus act to coordinate all of those things, but it needs to be done and that’s what the kernel is for.
 
+
+#### Loadable kernel module
+
+Loadable module is a object file to extend the kernel. You can easily add files to control hardware, and don't need to recompile the kernel. 
 
 ### Linux Device Driver
+A device driver is a computer program allowing higher-level computer programs to interact with a hardware device.
 
 The device driver actaully provide a standard interface to devices. In Linux the interface is a file. It can be opened, read, write or close. So when we manipulate the devices through manipulating files.
 - major number: to distinguish different kinds of driver
@@ -750,8 +760,6 @@ void motorControl(bool ifLeftMotor, char command) {
     }
 }
 ```
-### Kernel
-
 
 
 
@@ -772,8 +780,28 @@ void motorControl(bool ifLeftMotor, char command) {
   - its code size is uaually small.
   - A instruction will go through several clock cycles
 
-### 
+### Pipeline
 
+5 Stages Pipeline:
+- Fetch
+- Decode
+- Execute
+- Memory Operation
+- WriteBack
+
+R10K Pipeline Stages:
+- Fetch
+- Dispatch
+- Issue (Issue the instructions to functional unit and execute)
+- Execute 
+- Complete
+- Retire 
+
+
+### Hazards
+
+- Control hanzard and data hanzard
+- 
 
 
 
@@ -876,6 +904,15 @@ When we got the syntax tree, then we do type checking of the code. The inference
 ### Program organization
 
 When the program is invoked, the operating system will allocate spaces for this program. The machien code will be loded into the space.
+
+Stack frame for x86
+![](./IMG/x86_Stack_Frame.png)
+
+Memory Layout
+![](./IMG/Memory_layout.png)
+
+[X86 Assembly Guide](http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html)
+
 
 ### Optmization
 In order to do optimization, we need convert the code into a intermediate representation which is convenient for us to analysis the patterns in the code.
