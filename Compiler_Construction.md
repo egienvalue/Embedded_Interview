@@ -54,16 +54,16 @@ Memory Layout for 32-bit machine. The difference between 32-bit and 64-bit machi
 X86 has 8 general purpuse register. 
 - EAX usually will be used as accumulator for alrithmetic instructions. Also it will store the return value.
 - 
-![](IMG/x86_Register.png)
+[x86-64 Reference Sheet](./IMG/x86-64.pdf)
 
 Tree types of operand
 - Imediate
 - Register
 - Memory reference (access memeory location according to computed address)
-  - Indirect memeory reference
-  - Absolute address access
-  - Base + displacement reference 
-  - Scaled index reference
+  - Indirect addressing
+  - Absolute value addressing
+  - Base + displacement addressing 
+  - Scaled index addressing
 ![](./IMG/x86_OperandForms.png)
 
 [X86 Assembly Guide](http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html)
