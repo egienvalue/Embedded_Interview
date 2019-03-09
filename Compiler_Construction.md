@@ -31,14 +31,45 @@ When we got the syntax tree, then we do type checking of the code. The inference
 
 When the program is invoked, the operating system will allocate spaces for this program. The machien code will be loded into the space.
 
-Stack frame for x86
+Start function call:
+- If caller want to reuse some value stored in RAX RDX, it need push them into stack, and retrive them after function call
+- Caller Push the arguments into stack int reverse order ( last parameter first)
+- Caller Push the return adress into stack
+- Callee Push old base pointer into stack (The base pointer is used to access elements int the stack by adding offset to it). It points the address manipulated by callee.
+- Callee push all the local variable into the stacks
+- Callee start execution its instructions
+
+After funcion call ends:
+- Callee save the return value in to RAX
+- Deallocate all local variable by reset the stack pointer to base pointer
+- Restore caller's base pointer value by pop it from the stack
+- Execute "ret" instruction, it will find the return address from the stack.
+
+(If we have very large argumetns or local variable, the stackoverflow will happens)
 ![](./IMG/x86_Stack_Frame.png)
 
-Memory Layout
+Memory Layout for 32-bit machine. The difference between 32-bit and 64-bit machine is how the size of a memeory address.
 ![](./IMG/Memory_layout.png)
+
+X86 has 8 general purpuse register. 
+- EAX usually will be used as accumulator for alrithmetic instructions. Also it will store the return value.
+- 
+![](IMG/x86_Register.png)
+
+Tree types of operand
+- Imediate
+- Register
+- Memory reference (access memeory location according to computed address)
+  - Indirect memeory reference
+  - Absolute address access
+  - Base + displacement reference 
+  - Scaled index reference
+![](./IMG/x86_OperandForms.png)
 
 [X86 Assembly Guide](http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html)
 
+Assembly Code example for exchange value. Here the machine is 32bit, if for the 64-bit machine, the xp will be movq 2*8(%ebp), %edx
+![](IMG/x86_AssemblyCode_Exchange.png)
 
 ### Optmization
 In order to do optimization, we need convert the code into a intermediate representation which is convenient for us to analysis the patterns in the code.

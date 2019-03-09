@@ -9,7 +9,7 @@ General Computer Science Topics
 
 Embedded System
 - [Micro Controller](./Micro_Controller.md)
-- [Embeeded C](./Embedded_C.md)
+- [Embeded C](./Embedded_C.md)
 - [Linux Kernel](./Linux_Kernel.md)
 - [TI RTOS](./TI_RTOS.md)
 - [Free RTOS](./FreeRTOS.md)

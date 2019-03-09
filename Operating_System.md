@@ -1,6 +1,7 @@
 [Goback to Readme](./readme.md)
 
 - [Operating System](#operating-system)
+  - [Scheduling](#scheduling)
   - [Deadlock](#deadlock)
   - [Thread Control Block](#thread-control-block)
   - [Process vs Thread](#process-vs-thread)
@@ -11,6 +12,13 @@
   - [Inter Process Communication](#inter-process-communication)
 
 ## Operating System
+
+### Scheduling
+In order to maximize the reponse time of each thread and the system throughput. We need scheduler to schedule the thread with different algorithm.
+
+We want to avoid the starvation happens
+- 
+
 
 ### Deadlock
 - Mutual Exclusion: One or more than one resource are non-sharable (Only one process can use at a time)
