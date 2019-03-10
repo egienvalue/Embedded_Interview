@@ -6,10 +6,12 @@ General Computer Science Topics
 - [Compiler Construction](./Compiler_Construction.md)
 - [Computer Networks](./Computer_Networks.md)
 
+Data Structure & Algorithm Template
+- [Algorithm Template](./algorithm_temp.md)
 
 Embedded System
 - [Micro Controller](./Micro_Controller.md)
-- [Embeded C](./Embedded_C.md)
+- [Embedded C](./Embedded_C.md)
 - [Linux Kernel](./Linux_Kernel.md)
 - [TI RTOS](./TI_RTOS.md)
 - [Free RTOS](./FreeRTOS.md)

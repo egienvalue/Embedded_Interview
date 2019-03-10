@@ -24,6 +24,8 @@
     - [SPI](#spi)
     - [I2C](#i2c)
     - [Serial Communication](#serial-communication)
+  - [Asynchronous system design](#asynchronous-system-design)
+    - [Receive the data from serial port asynchronously](#receive-the-data-from-serial-port-asynchronously)
 
 ## Micro-controller
 
@@ -120,6 +122,10 @@ There are two kinds of interrupt, software and hardware.
 
 ### DMA (Direct Memory Access)
 Direct memory access (DMA) is an interfacing technique that allows data to transfer directly from I/O device to memory, or from memory to the I/O device without going through the processor. Embedded system designers will need to use DMA when interfacing high speed devices.
+
+- CPU need setup destination address, source addres, data size, and send the transfer request.
+- DMA need request for getting the
+- When the DMA finish transmission, it will send a interrupt to notify CPU. 
 
 ### RTOS
 
@@ -234,3 +240,13 @@ Solve the problem of know how many bytes to receive
 - Error detection – something beyond parity to detect corrupted bytes
 - Each message might also be sandwiched between an XON and XOFF
 ![](./IMG/Serial_MessageFormat.png)
+
+
+
+### Asynchronous system design
+
+#### Receive the data from serial port asynchronously
+
+- The serial port interrupt will be triggered byte by byte
+- When the interrupt was triggered, it will set the oneshot time to start
+- When the timer times out, it will grab the data stored in the serial port buffer

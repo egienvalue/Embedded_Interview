@@ -32,7 +32,13 @@ The device driver actaully provide a standard interface to devices. In Linux the
 
 Different Types:
 - Character Device File
+  - A Character ('c') Device is one with which the Driver communicates by sending and receiving single characters (bytes, octets)
+  - Each character is handled individually
+  - Examples for Character Devices: serial ports, parallel ports, sounds cards.
 - Block Device File
+  - A Block ('b') Device is one with which the Driver communicates by sending entire blocks of data. 
+  - The name “block device” comes from the fact that the corresponding hardware typically reads and writes a whole block at a time
+  - Examples for Block Devices: hard disks, USB cameras, Disk-On-Key.
 - Pseudo Device File
 
 ```bash

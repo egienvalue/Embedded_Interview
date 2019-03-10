@@ -1,4 +1,27 @@
 
+- [Algorithm Template](#algorithm-template)
+  - [DFS](#dfs)
+  - [BFS](#bfs)
+  - [Uniont Find](#uniont-find)
+  - [Heap 实现](#heap-%E5%AE%9E%E7%8E%B0)
+  - [Hash Map 实现](#hash-map-%E5%AE%9E%E7%8E%B0)
+  - [Quick sort](#quick-sort)
+  - [Merge sort](#merge-sort)
+  - [Insertion sort](#insertion-sort)
+  - [Bubble sort](#bubble-sort)
+  - [Selection sort](#selection-sort)
+  - [Counting Sort](#counting-sort)
+  - [topological sort](#topological-sort)
+  - [Mono stack](#mono-stack)
+  - [Mono queue](#mono-queue)
+  - [Trie - Prefix Tree](#trie---prefix-tree)
+  - [Tree Traverse](#tree-traverse)
+    - [Inorder](#inorder)
+    - [Preorder](#preorder)
+    - [Postorder](#postorder)
+  - [Boyer-Moore Voting Algorithm](#boyer-moore-voting-algorithm)
+
+# Algorithm Template
 
 ## DFS
 
@@ -99,13 +122,31 @@ public:
 };
 ```
 
-
-
-
-
-
-
 ## BFS
+
+Tricks in BFS
+LC Level order traversal
+```c++
+struct TreeNode{
+    int value;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int val) : value(val), left(nullptr), right(nullptr){}
+    TreeNode() : value(0), left(nullptr), right(nullptr){}
+};
+void bfs(TreeNode* root){
+    vector<TreeNode*> bfs_vector;
+    bfs_vector.push_back(root);
+    for(int i=0;i<bfs_vector.size();i++){
+        if(bfs_vector[i]->left!=nullptr)
+            bfs_vector.push_back(bfs_vector[i]->left);
+        if(bfs_vector[i]->right!=nullptr)
+            bfs_vector.push_back(bfs_vector[i]->right);  
+    }
+}
+
+```
+
 
 - Using Traditional Queue
     LC 200 Number of Island
@@ -227,18 +268,63 @@ public:
 ```
 
 ## Heap 实现
+![](./IMG/Heap.png)
+
+- Access parent of kth element: array[k/2]
+- Access left_child of kth element: array[2*k]
+- Access right child of kth element: array[2*k+1]
+
+Heap stores the complete binary tree into array. The heap has following operations: push(), pop().
+
+- Push: add element to the end of array, and fix the heap order
+- Pop: replace the element on the top with element, and fix the heap order
+
+```c++
+template<class Item>
+class Heap{
+
+public:
+    Item[] heap;
+    int _heap_size;
+    Heap(int heap_size) : _heap_size(heap_size){ } 
+    Heap() : _heap_size(100) {}
+    void push(Item newItem) {
+        heap[++heapsize] = newItem; 
+        fixUp(heap, heapsize);
+    }
+    // fix the order of kth elements in array
+    void fixUp(Item[] heap, int k){
+        while(k>1 && heap[k/2] < heap[k] ){
+            swap(heap[k], heap[k/2]);
+            k /= 2;
+        }
+    }
+
+    void pop(){
+        heap[1] = heap[heap_size--];
+        fixDown(heap, 1);
+    }
+
+    void fixDown(Item[] heap, int heap_size, int k){
+        while(2*k<=heap_size){
+            int j=2*k;// start with left child
+            // find which child is greater
+            if(j<heap_size && heap[j] < heap[j+1]) ++j;
+            if(heap[k] >= heap[j]){break;} // restorr heap
+            swap(heap[k], heap[j]);
+            k=j;// move down
+        }
+    }
+
+}
 
 
+};
+```
 
 ## Hash Map 实现
 hash function 映射Key到address
 ![](./IMG/hash_func.png)
-
-- Integer
-```c++
-
-```
-
 
 ```c++
 class MyHashMap {
@@ -370,20 +456,217 @@ public:
 };
 ```
 
-## Insert sort
+## Insertion sort
+
+Most common ways
+```c++
+void insertion_sort(vector<int> nums){
+    for(int i=1;i<nums.size();i++){
+        for(int j=0;j<i;j++){
+            if(nums[i]>nums[j]){
+                swap(nums[j],nums[i]);
+            }
+        }
+    }
+}
+```
+
+little improvement.
+```c++
+void insertion_sort(vector<int> nums){
+    for(int i=1;i<nums.size();i++){
+        int temp = nums[i];
+        int j=i;
+        while(v<a[j-1]){
+            // move the item back
+            a[j] = a[j-1];
+            j--;
+        }
+        a[j] = temp;
+    }
+}
+```
 
 
 ## Bubble sort
 
+Traditional bubble sort
+```c++
+void bubble_sort(vector<int> nums){
+    for(int i=0;i<nums.size();i++){
+        for(int j=nums.size()-1;j>i;j--){
+            if(nums[j]>nums[j-1]){
+                swap(nums[j],nums[j-1]);
+            }
+        }
+    }
 
-## Selectiong sort
+}
+```
 
+Adaptive bubble sort(if now swap happens in a round, break the loop)
+```c++
+void adap_bubble_sort(vector<int> nums){
+    for(int i=0;i<nums.size();i++){
+        bool swapped = false;
+        for(int j=nums.size()-1;j>i;j--){
+            if(nums[j]>nums[j-1]){
+                swapped = true;
+                swap(nums[j],nums[j-1]);
+            }
+        }
+        if(!swapped){
+            break;
+        }
+    } 
+}
+```
+
+## Selection sort
+Find the smalled element and swap with first.
+```c++
+void selection_sort(vector<int> nums){
+    for(int i=0;i<nums.size();i++){
+        int cur_min_idx=i;
+        for(int j=i+1;j<nums.size();j++){
+            if(nums[j] < nums[cur_min_idx]){
+                cur_min_idx = j;
+            }
+        }
+        if(cur_min_idx != i){
+            swap(nums[cur_min_idx], nums[i]);
+        }
+    }
+}
+```
+
+## Counting Sort
+For array's only have limited kinds of values. We can use the counting sort / bucket sort.
+
+```c++
+
+// nums: A B A R S D Q A S
+void bucket_sort(vector<char> chars){
+    vector<char> bucket;
+    // put items into buckets
+    for(auto &x : chars){
+        bucket[x]++;
+    }
+    int cur = 0;
+    for(int i=0;i<26;i++){
+        for(int j=0;j<bucket[i];j++){
+            chars[cur++] = i+'A';
+        }
+    }
+
+}
+
+```
 
 ## topological sort
 
+Algorithm from the wikipedia:
+```
+L ← Empty list that will contain the sorted nodes
+while there are unmarked nodes do
+    select an unmarked node n
+    visit(n)
+
+function visit(node n)
+    if n has a permanent mark then return
+    if n has a temporary mark then stop   (not a DAG)
+    mark n temporarily
+    for each node m with an edge from n to m do
+        visit(m)
+    mark n permanently
+    add n to head of L
+```
+
+Course schedule problems LC 210:
+
+There are a total of n courses you have to take, labeled from 0 to n-1.
+
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+
+Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
+
+There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
+```c++
+class Solution {
+public:
+
+
+    vector<int> per_mark;
+    vector<int> topo_list;
+
+    bool visit(int n, vector<pair<int, int>>& prerequisites, vector<int> temp_mark){
+        if(per_mark[n] == 1){
+            return true;
+        }
+        if(temp_mark[n] == 1){
+            return false;
+        }
+        temp_mark[n] = 1;
+        for(int i=0;i<prerequisites.size();i++){
+            if(prerequisites[i].first == n){
+                if(!visit(prerequisites[i].second, prerequisites, temp_mark))
+                    return false;
+            }
+        }
+        per_mark[n] = 1;
+        topo_list.push_back(n); // This is the key to record the topological order
+        return true;
+    }
+
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        per_mark = vector<int>(numCourses, 0);
+        vector<int> temp_mark(numCourses, 0);
+        for(int i=0;i<per_mark.size();i++){
+            if(per_mark[i] == 1)
+                continue;
+            // Eachtime visit pass into the temperary mark
+            if(!visit(i, prerequisites, temp_mark))
+                return {};
+        }
+        return topo_list;
+    
+    }
+};
+```
 
 ## Mono stack
+The mono stack is usually used to solve the next greater element or previous greater element. It maitains a monotonic order in stack;
 
+```c++
+// Find the first greater element after it for each element in array
+vector<int> next_geater_ele(vector<int> nums){
+    int n = nums.size();
+    vector<int> nge(n,-1);//next first greater element
+    stack<int> mono_stack;
+    for(int i=0;i<n;i++){
+        while(!mono_stack.empty() && nums[i] > nums[mono_stack.top()]){
+            nge[mono_stack.top()] = i;
+            mono_stack.pop();
+        }
+        mono_stack.push(i);
+    }
+    return nge;
+}
+
+vector<int> prev_greater_ele(vector<int> nums){
+    int n = nums.size();
+    vector<int> pge(n,-1);// prev fisrt greater element
+    stack<int> mono_stack;
+    for(int i=0;i<n;i++){
+        while(!mono_stack.empty() && nums[i] > nums[mono_stack.top()]){
+            mono_stack.pop();
+        }
+        pge[i]=mono_stack.top();
+        mono_stack.push(i);
+    }
+    return nge;
+}
+```
 
 
 ## Mono queue
