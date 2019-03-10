@@ -7,7 +7,7 @@ General Computer Science Topics
 - [Computer Networks](./Computer_Networks.md)
 
 Data Structure & Algorithm Template
-- [Algorithm Template](./algorithm_temp.md)
+- [Algorithm Template](./Algorithm_Temp.md)
 
 Embedded System
 - [Micro Controller](./Micro_Controller.md)
