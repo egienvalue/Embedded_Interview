@@ -7,6 +7,7 @@
   - [THe last step: code generation](#the-last-step-code-generation)
   - [Program organization](#program-organization)
   - [Optmization](#optmization)
+  - [Garbage Collection](#garbage-collection)
 
 ## Compiler Construction
 
@@ -74,3 +75,6 @@ Assembly Code example for exchange value. Here the machine is 32bit, if for the 
 ### Optmization
 In order to do optimization, we need convert the code into a intermediate representation which is convenient for us to analysis the patterns in the code.
 For the dead code elimination, we only do it for assignment instruction. Through the liveness analysis, where the dead code is, and remove it from my syntax tree.
+
+### Garbage Collection
+
