@@ -5,6 +5,9 @@
   - [Bit-field](#bit-field)
   - [Volatile](#volatile)
   - [Macro vs Inline func](#macro-vs-inline-func)
+  - [Different Pointer define](#different-pointer-define)
+  - [Access fixed memory location](#access-fixed-memory-location)
+  - [Typedef vs Macro](#typedef-vs-macro)
   - [Unsigned vs Signed](#unsigned-vs-signed)
   - [Floating](#floating)
   - [Struct](#struct)
@@ -33,7 +36,9 @@ int main()
 
 ### Volatile
 
-- Non-automatic variables referenced within an interrupt service routine
+A volatile variable is one that can change unexpectedly. Consequently, the compiler can make no assumptions about the value of the variable. In particular, the optimizer must be careful to reload the variable every time it is used instead of holding a copy in a register. Examples of volatile variables are:
+
+- Non-automatic variables referenced within an interrupt service routine. 
 A global or static variable used in an interrupt will appear to change unexpectedly at the task level, so the volatile keyword is needed to inform the compiler that this will happen.
 
 - Variables shared by multiple tasks in a multi-threaded application 
@@ -76,11 +81,41 @@ Macro:
 - expanded by the preprocessor, directly replace the code section
 - just do the replacement according to the define
 ```c++
+// This code can be a problem: when using the min(*p++, val)
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
+
 ```
 Inline func
 - only parsed by the compiler
 - it is actually programs which can access the member variables
+
+### Different Pointer define
+- int a; // An integer
+- int *a; // A pointer to an integer
+- int **a; // A pointer to a pointer to an integer
+- int a[10]; // An array of 10 integers
+- int *a[10]; // An array of 10 pointers to integers
+- int (*a)[10]; // A pointer to an array of 10 integers
+- int (*a)(int); // A pointer to a function a that takes an integer argument and returns an integer
+- int (*a[10])(int); // An array of 10 pointers to functions that take an integer argument and return an integer
+
+### Access fixed memory location
+
+```c++
+int *ptr = (int *) 0x99999;
+return *ptr;
+```
+### Typedef vs Macro
+Typedef is better
+```c++
+#define dPS struct s * 
+typedef struct s* tPS;
+
+dPS p1, p2;// struct s* p1, p2; p1 is a pointer, p2 is a struct object
+
+tPS p1, p2;// define two pointers
+
+```
 
 ### Unsigned vs Signed
 ![](./IMG/补码到无符号.png)

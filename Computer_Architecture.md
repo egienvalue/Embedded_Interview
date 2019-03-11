@@ -8,6 +8,9 @@
   - [MIPS R10K Style](#mips-r10k-style)
   - [Branch Prediction](#branch-prediction)
   - [Cache](#cache)
+    - [Terminology](#terminology)
+    - [Cache Parameters](#cache-parameters)
+    - [Write plolicy](#write-plolicy)
   - [Virtual Memory](#virtual-memory)
 
 ## Computer Architecture
@@ -69,7 +72,7 @@ In mordern processor, we speculative execute the branch instructions, and use th
 
 ### Branch Prediction
 
-We usually use the branch address and branch history to predict the branch outcome
+We usually use the branch address and branch history to predict the branch outcome.
 - Two bit saturating counter
 ![](IMG/Branch_Pre_2bc.png)
 - Correlated Branch predictor
@@ -78,6 +81,39 @@ We usually use the branch address and branch history to predict the branch outco
 
 ### Cache
 
+#### Terminology
+- block (cache line) — minimum unit that may be present
+- hit —> block is found in the cache
+- miss —> block is not found in the cache
+- miss rate —> fraction of references that miss
+- hit time -> time to access the cache
+- special locality -> when the program access a memory address, it has a high possibility to access the memory location near it.
+- temporal locality -> when the program access a memory location, it has a high chance to access it in the future
 
+#### Cache Parameters
+- Block (cache line) size
+  - Too small block size don't exploit spacial locality well
+  - Too large will cause useless data transferred
+- Cache size
+  - small cache usually faster
+  - but too small will affect the temporal locality, useful data will be constantly replaced.
+- Cache Associativity
+  - Fully associative cache
+  - Set associative cache
+  - Directly mapped cache
+
+
+Cache use the high order bit as index, the memory address usually consists of three parts:
+tag + index + block-offset
+![](./IMG/Cache_Direct_Map.png)
+![](./IMG/Cache_Fully_Asso.png)
+![](IMG/Cache_N_Way_Asso.png)
+
+#### Write plolicy
+- write through
+  - When writing to the cache, it will update the memory at the same time
+- write back
+  - when writing to the cache, the dirty bit in cache line will marked
+  - only write back to the memory when evicts this cache line
 
 ### Virtual Memory

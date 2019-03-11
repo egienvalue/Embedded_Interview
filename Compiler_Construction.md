@@ -76,5 +76,52 @@ Assembly Code example for exchange value. Here the machine is 32bit, if for the 
 In order to do optimization, we need convert the code into a intermediate representation which is convenient for us to analysis the patterns in the code.
 For the dead code elimination, we only do it for assignment instruction. Through the liveness analysis, where the dead code is, and remove it from my syntax tree.
 
+- Unboxing: 
+  - For these objective oriented language, they regard the int variabla a class. But for compiler, it need generate more code for classes comparing with just integer value. Same for the string class.
+  - After we finish code generation, the interger value need to be boxed into a class.
+
+- Loop Unrolling
+  - Loop unrolling is used for reducing the number of times of executing branches.
+  - Branches consume more CPU cycles than normal instructions.
+
+- Loop Invariants
+  - Some variable value in the loop never changes. For these variables
+  - These variable can be put outside of the loop
+
+- Constant propagation
+  - Propage the constant value to rest of the code
+
+- Dead code elimination
+  - some assignments are assigning value to dead variables. These assignments can be removed.
+  - We use data flow analysis to get the dead variables
+
+- Register allocation
+  - Especially for alrithmatic instructions, the naive approach is use the stack the calculate the result. But it is pretty slow.
+  - In order to avoid access memory frequently, we need allocate registers to variables as many as possible.
+  - Know how long the variable will stay alive is important, and for each alive veriable we need a register to store its value.
+
+
 ### Garbage Collection
 
+Some memory allocated to programs many never be used again, the garbage collection will recollect these spaces and release them to other programs. 
+
+Tow basic garbage collection algorithm: basic idea is to scane the heap find the unreachable object and free them.
+- Mark and Sweep
+  - Mark Phase: 
+    - so for each object we have a mark bit. Once it is created, its mark bit will set to zero. Then we make each node that the user can access.
+    - In the process of marking, we regarded these object as tree node, and use the DFS to mark all rechable object. If a node is reachable, any nodes it points to will be reachable.
+  - Sweep Pase:
+    - The sweep phase will clear all memory with mark bit zero, and release them to other programs.
+  - Pros and Cons
+    - Pros: 
+      1. It handles the case with cyclic references, even in case of a cycle, this algorithm never ends up in an infinite loop. 
+      2. There are no additional overheads incurred during the execution of the algorithm.
+    - Cons: 
+      1. Cause the “Fragmentation” problem
+
+- Stop and Copy
+
+[Copying Garbage Collection](http://www.cs.cornell.edu/courses/cs312/2003fa/lectures/sec24.htm)
+
+
+- Reference counting

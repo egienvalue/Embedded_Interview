@@ -23,6 +23,8 @@ Bluetooth Communication
 Programming Language
 - [C++](./Cplusplus.md) 
 
+Resume Details
+- [Resume Details](./Resume_Details.md)
 
 All topics
 - [Embedded Topics](./EmbeddedTopics.md)

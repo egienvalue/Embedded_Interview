@@ -13,6 +13,7 @@
   - [Timer](#timer)
     - [Watch Dog timer](#watch-dog-timer)
   - [Interrupt](#interrupt)
+    - [ISR](#isr)
   - [ARM ISA](#arm-isa)
   - [DMA (Direct Memory Access)](#dma-direct-memory-access)
   - [RTOS](#rtos)
@@ -112,6 +113,13 @@ There are two kinds of interrupt, software and hardware.
   - Acknowledge the Interrupt (Clear the interrupt flag)
   - Resume execution
 
+#### ISR
+  - Can't return value (void type)
+  - Can't pass arguments
+  - keep ISRs as short as possible
+  - The called function is either re-entrant or that it isn't called by other parts of the code except the ISR
+  - Avoid functions that will block on some shared resource
+  - 
 ### ARM ISA
 - General purpose register R0 - R12 
 - Special purpose: 
