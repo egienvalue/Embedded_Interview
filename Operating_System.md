@@ -7,6 +7,8 @@
   - [Thread Control Block](#thread-control-block)
   - [Process vs Thread](#process-vs-thread)
   - [Thread Synchronization](#thread-synchronization)
+    - [Race condition](#race-condition)
+    - [Synchronization Primitive](#synchronization-primitive)
   - [Producer and Consumer](#producer-and-consumer)
   - [Paging](#paging)
     - [Virtual Memory](#virtual-memory)
@@ -60,6 +62,18 @@ The blow shoe the different states of thread
 ![](./IMG/Process_vs_Thread.png)
 
 ### Thread Synchronization
+
+
+#### Race condition
+A race condition occurs when two or more threads can access shared data and they try to change it at the same time. Because the thread scheduling algorithm can swap between threads at any time, you don't know the order in which the threads will attempt to access the shared data. Therefore, the result of the change in data is dependent on the thread scheduling algorithm, i.e. both threads are "racing" to access/change the data.
+
+#### Synchronization Primitive
+[Semphor vs Mutex vs Spinlock](https://anandabhisheksingh.me/mutex-vs-semaphore-vs-spinlock/)
+Semaphore vs Mutex:
+Semaphore is used to limit the execution order of thread. It can be released by different thread.
+
+Mutext provide the mutual exclution of some shared resources. It can only be released by the same process.
+
 Locks:
 - spin lock
   - With a spinlock, the thread simply waits ("spins") until the lock becomes available. This is efficient if threads are blocked for a short time, because it avoids the overhead of operating system process re-scheduling. 

@@ -289,7 +289,7 @@ public:
     Heap(int heap_size) : _heap_size(heap_size){ } 
     Heap() : _heap_size(100) {}
     void push(Item newItem) {
-        heap[++heapsize] = newItem; 
+        heap[++_heapsize] = newItem; 
         fixUp(heap, heapsize);
     }
     // fix the order of kth elements in array

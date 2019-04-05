@@ -1,6 +1,147 @@
 
 #include <vector>
 #include <map>
+#include <stack>
+
+using namespace std;
+
+struct TreeNode{
+    int val;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+
+vector<int> result;
+void pre_order(TreeNode* root){
+    if(root == nullptr)
+        return;
+    result.push_back(root->val);
+    pre_order(root->left);
+    pre_order(root->right);
+}
+
+vector<int> in_order_iter(TreeNode* root){
+    stack<TreeNode*> my_stack;
+    vector<int> result;
+
+    while(!root || !my_stack.empty()){
+        while(root){
+            my_stack.push(root);
+            root = root->left;
+        }
+        result.push_back(my_stack.top()->val);
+        my_stack.pop();
+        root = root->right;
+    }
+
+    return result;
+}
+
+vector<int> pre_order_iter(TreeNode* root){
+    stack<TreeNode*> my_stack;
+    vector<int> result;
+    my_stack.push(root);
+    while(!my_stack.empty()){
+        result.push_back(my_stack.top()->val);
+        my_stack.pop();
+        if(root->right)
+            my_stack.push(root->right);
+        if(root->left)
+            my_stack.push(root->left);
+    }
+    return result;
+}
+
+vector<int> post_order_iter(TreeNode* root){
+    stack<TreeNode*> my_stack;
+    vector<int> result;
+    
+
+}
+
+template<class Item>
+void push(Item new_item){
+    heap.push_back(new_item);
+    _heap_size ++;
+    fixUp(heap, heap_size);
+}
+
+template<class Item>
+void pop(){
+    heap.pop_back();
+    _heap_size--;
+    fixDown(heap, 1);
+
+}
+
+
+template<class Item>
+void fixUp(vector<Item> heap, int k){
+    while(k>1 && heap[k] > heap[k/2]){
+        swap(heap[k], heap[k/2]);
+        k /= 2;
+    }
+
+}
+
+template<class Item>
+void fixDown(vector<Item> heap, int k){
+    while(k*2 < heap.size()){
+        // find the left child index
+        int j = k*2;
+        // compare which child is larger
+        if(heap[j] < heap[j+1]) j++;
+
+        // check if need to swap with the parent and child
+        if(heap[k] >= heap[j])
+            break;
+        swap(heap[j], heap[k]);
+        k = j;
+    }
+}
+
+int partition_quick(vector<int>nums, int left, int right){
+    int pivot = nums[right];
+    int l = left;
+    int r = right-1;
+    while(true){
+        while(nums[l]>pivot)  l++;
+        while(l < r && nums[r]<pivot)  r--;
+        if(l >= r){
+            break;
+        }
+        swap(nums[l], nums[r]);
+    }
+    // here we can only swap with the left because the nums[l] must be higher than the pivot
+    swap(nums[right], nums[l]);
+    return l;
+}
+
+
+int partition(vector<int> nums, int left, int right){
+    int pivot = nums[left];
+    int l = left +1;
+    int r = right;
+    while(l <= r){
+        if(nums[l] < pivot && nums[r] > pivot){
+            swap(nums[l], nums[r]);
+            l++;
+            r--;
+        }
+        if(nums[l] > pivot){
+            l++;
+        }
+        if(nums[r] < pivot){
+            r--;
+        }
+    }
+    swap(nums[left], nums[r]);
+
+}
+
+
+
 int test1(vector<int> nums, int k){
     map<int, int> my_map;
     vector<int> cumu_product(nums.size()+1,1);

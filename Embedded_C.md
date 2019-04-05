@@ -17,10 +17,13 @@
   - [Static qulifier](#static-qulifier)
   - [Const qulifier](#const-qulifier)
   - [Diference between Macro and Inline](#diference-between-macro-and-inline)
+  - [Reentrant Function](#reentrant-function)
 
 ## Embedded C
 
-### Endianess 
+
+### Endianess
+Endianness is the sequential order in which bytes are arranged in memory 
 - Big endian: MSB placed at the lowest addr 
 - Little endian: LSB placed at the lowest addr 
 ```c++
@@ -38,12 +41,12 @@ int main()
 
 A volatile variable is one that can change unexpectedly. Consequently, the compiler can make no assumptions about the value of the variable. In particular, the optimizer must be careful to reload the variable every time it is used instead of holding a copy in a register. Examples of volatile variables are:
 
-- Non-automatic variables referenced within an interrupt service routine. 
-A global or static variable used in an interrupt will appear to change unexpectedly at the task level, so the volatile keyword is needed to inform the compiler that this will happen.
+- Non-automatic variables referenced within an interrupt service routine. A global or static variable used in an interrupt will appear to change unexpectedly at the task level, so the volatile keyword is needed to inform the compiler that this will happen.
 
 - Variables shared by multiple tasks in a multi-threaded application 
 - Hardware registers in peripherals (for example, status registers)
 
+Every time the code encountered the volatile variable, the program will take the value of the given volatile variable from the main memory every time it encounters
 ```c++
 
 uint8_t volatile * p_ledreg = 0x10000000;
@@ -118,6 +121,9 @@ tPS p1, p2;// define two pointers
 ```
 
 ### Unsigned vs Signed
+- Signed Int range -> [-2^31, 2^31-1]
+- Unsigned Integer range -> [0, 2^32-1]
+
 ![](./IMG/补码到无符号.png)
 Convert the unsigned int to signed int, minus 2^32 if the unsigned int greater than 2^31;
 Covert the signed int to unsigned int, plus 2^32 if the signed int less than 0;
@@ -199,3 +205,7 @@ const char* const ptr;
 
 
 ### Diference between Macro and Inline
+
+
+### Reentrant Function
+The reentrant is very similar to thread-safe. We usually need to make the interrupt handler reentrant if we want to support the nested interrupt. If the micro-controller didn't support the nested interrupt. The interrupt handler don't need to be reentrant.

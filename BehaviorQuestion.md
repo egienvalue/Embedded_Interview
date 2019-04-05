@@ -2,8 +2,10 @@
 
 
 ### Tell me a little bit about youself
-I am Jun. Currently, I am the second year master student in the university of michigan. My major is electrical and computer engineering. I have done many interesting projects realted firmware development during my internship and master education.
+I am Jun. Currently, I am the second year master student in the university of michigan. My major is electrical and computer engineering. I have done many interesting projects involved in firmware development during my internship and master education.
 Last summer, I worked at Alibaba as a firmware engineer intern. And I participated in embedded software development of several commercial product such as Cainiao Box and Warehouse sensors. During the master education, I have done projectst related to wirless sensor network, processor design, and compiler design. So, I am very familiar with C/C++, Python, RTOS, different serial communication protocol, and Bluetooth.
+
+
 
 ### Asked by Interviewer
 
