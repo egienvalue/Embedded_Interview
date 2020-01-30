@@ -181,7 +181,7 @@ ptr = (int*) malloc(100 * sizeof(int));	//allocates the specified number of byte
 ptr = realloc(ptr, new_size);	//increases or decreases the size of the specified block of memory, moving it if necessary
 
 ptr = (float*) calloc(25, sizeof(float));	//allocates the specified number of bytes and initializes them to zero
-free(*ptr)	//releases the specified block of memory back to the system
+free(ptr)	//releases the specified block of memory back to the system
 ```
 ### Static qulifier
 - Static for global variable: access it limited in this file
